@@ -1,2 +1,2 @@
-# node-demos
-Node examples
+# node-projects
+Node projects
