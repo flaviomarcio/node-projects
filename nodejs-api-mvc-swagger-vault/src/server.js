@@ -2,10 +2,23 @@
 
 const express = require("express");
 const swaggerDocs = require("./config/swagger");
+const vault = require("./config/vault"); // Importa o arquivo de configuração
 const app = express();
 const db = require("./database/db");
 
 const routes = require("./routes/routes")
+
+async function getSecrets() {
+    try {
+      const secret = await vault.read("testing/data/nodejs-secret-name");
+      console.log("appenvs: "+JSON.stringify(secret.data.data)); // Os valores reais estão dentro de `data.data`
+      return secret.data.data;
+    } catch (error) {
+      console.error("Erro ao buscar segredos:", error.message);
+    }
+  }
+  
+const appEnvs=getSecrets();
 
 app.use(express.json());
 
