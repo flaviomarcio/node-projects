@@ -25,3 +25,4 @@ router.delete("/deleteuser/:userId", deleteUserController.deleteUser);
 router.get("/user/:userId", findUserByIdController.renderUserById);
 
 module.exports = router;
+
