@@ -19,12 +19,30 @@ npm install node-vault
 
 Execute os comandos abaixo em sequência.
 
-```bash
-export VAULT_ADDR=http://127.0.0.1:8200
-export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
-npm install
-npm run dev
-```
+- vault
+    ```bash
+    docker run --cap-add=IPC_LOCK -d --name=vault \
+    -e 'VAULT_DEV_ROOT_TOKEN_ID=00000000-0000-0000-0000-000000000000' \
+    -e 'VAULT_ADDR=http://0.0.0.0:8200' \
+    -p 8200:8200 \
+    hashicorp/vault:latest
+    #aponta para hostname
+    export VAULT_ADDR=http://127.0.0.1:8200
+    #informa token predefinido no container do vault
+    export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
+    #cria secrets
+    vault kv put testing/nodejs-secret-name app.name="demo"
+    #recuperar secret
+    vault kv get testing/nodejs-secret-name app.name="demo"
+    ```
+
+- npm
+    ```bash
+    #informe o token para carregar no server.js
+    export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
+    npm install
+    npm run dev
+    ```
 
 O primeiro comando npm install é responsável por instalar o projeto, já o npm run dev roda o projeto.
 
@@ -95,7 +113,7 @@ Vou utilizar o Model User citado anteriomente e receber a soliticação de adici
           }
       });
 
-      if (!userExist) {      
+      if (!userExist) {
           if (name && email && age !== null) {
               const userCreated = await User.create({ name, email, age });
               return res.status(201).json({ mensagem: "Usuário criado com sucesso!!!" });

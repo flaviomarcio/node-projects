@@ -1,5 +1,7 @@
 'use strict';
 
+const consumer = require("./consumers/consumer");
+const publisher = require("./clients/publisher");
 const express = require("express");
 const swaggerDocs = require("./config/swagger");
 const vault = require("./config/vault"); // Importa o arquivo de configuração
