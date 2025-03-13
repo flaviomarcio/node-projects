@@ -20,8 +20,9 @@ npm install node-vault
 Execute os comandos abaixo em sequência.
 
 ```bash
-npm install
+export VAULT_ADDR=http://127.0.0.1:8200
 export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
+npm install
 npm run dev
 ```
 

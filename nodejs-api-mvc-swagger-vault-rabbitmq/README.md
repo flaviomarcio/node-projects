@@ -13,15 +13,44 @@ A aplicação vai retornar JSON (JavaScript Object Notation) que é um formato d
 ```bash
 npm install swagger-ui-express swagger-jsdoc
 npm install node-vault
+npm install amqplib
 ```
 
 ## Como Rodar o Projeto
 
 Execute os comandos abaixo em sequência.
 
+- RabbitMQ
+    ```bash
+    docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 \
+        -e RABBITMQ_DEFAULT_USER=admin \
+        -e RABBITMQ_DEFAULT_PASS=admin \
+        rabbitmq:management
+    ```
+
+
+- vault
 ```bash
-npm install
+docker run --cap-add=IPC_LOCK -d --name=vault \
+  -e 'VAULT_DEV_ROOT_TOKEN_ID=00000000-0000-0000-0000-000000000000' \
+  -e 'VAULT_ADDR=http://0.0.0.0:8200' \
+  -p 8200:8200 \
+  hashicorp/vault:latest
+#aponta para hostname
+export VAULT_ADDR=http://127.0.0.1:8200
+#informa token predefinido no container do vault
 export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
+#cria secrets
+vault kv put testing/nodejs-secret-name app.name="demo"
+#recuperar secret
+vault kv get testing/nodejs-secret-name app.name="demo"
+```
+
+- npm
+```bash
+#informe o token para carregar no server.js
+export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
+npm install
 npm run dev
 ```
 
