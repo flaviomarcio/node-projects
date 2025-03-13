@@ -10,9 +10,10 @@ A aplicação vai retornar JSON (JavaScript Object Notation) que é um formato d
 
 ## Como Rodar o Projeto
 Execute os comandos abaixo em sequência.
-
-    -npm install
-    -npm run dev
+```bash
+npm install
+npm run dev
+```
 
 O primeiro comando npm install é responsável por instalar o projeto, já o npm run dev roda o projeto.
 
